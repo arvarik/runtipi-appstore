@@ -1,0 +1,36 @@
+import path from "node:path";
+import fs from "node:fs/promises";
+
+const packageFile = process.argv[2];
+const newVersion = process.argv[3];
+
+type AppConfig = {
+  tipi_version: number;
+  version: string;
+  updated_at: number;
+};
+
+const updateAppConfig = async (packageFile: string, newVersion: string) => {
+  try {
+    const packageRoot = path.dirname(packageFile);
+    const configPath = path.join(packageRoot, "config.json");
+
+    const config = await fs.readFile(configPath, "utf-8");
+    const configParsed = JSON.parse(config) as AppConfig;
+
+    configParsed.tipi_version = Number(configParsed.tipi_version) + 1;
+    configParsed.version = newVersion;
+    configParsed.updated_at = Date.now();
+
+    await fs.writeFile(configPath, `${JSON.stringify(configParsed, null, 2)}\n`);
+  } catch (e) {
+    console.error(`Failed to update app config, error: ${e}`);
+    process.exit(1);
+  }
+};
+
+if (!packageFile || !newVersion) {
+  console.error("Usage: bun ./scripts/update-config.ts <packageFile> <newVersion>");
+  process.exit(1);
+}
+updateAppConfig(packageFile, newVersion);
