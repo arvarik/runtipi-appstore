@@ -167,7 +167,7 @@ describe("each app has the required files and valid schemas", async () => {
       expect(jsonObj.schemaVersion).toBe(2);
 
       const convertedFromJson = convertLegacyToYaml(jsonObj);
-      expect(convertedFromJson.services).toEqual(yamlObj.services as Record<string, unknown>);
+      expect<unknown>(convertedFromJson.services).toEqual(yamlObj.services);
 
       const yamlServices = Object.values(
         (yamlObj.services ?? {}) as Record<string, { image?: string }>,

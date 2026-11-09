@@ -1,0 +1,45 @@
+{
+  "name": "Contrack",
+  "id": "contrack",
+  "available": true,
+  "port": 3210,
+  "short_desc": "Self-hosted personal CRM with local semantic search.",
+  "description": "Contrack is an open-source (AGPL-3.0), self-hosted personal CRM that keeps your contacts, notes, meetings, and reminders in one SQLite database on your own server. Import contacts from Apple, Google, LinkedIn, or Facebook, sync calendars and mailboxes (Google Workspace, CardDAV, ICS, IMAP), merge duplicates with a 90-day undo, and track follow-ups, birthdays, and milestones on the daily Pulse page or an interactive map. Built-in local semantic search (Ask Contrack) runs offline inside the container with no external API required, while AI enrichment and MCP client connections remain optional. Multiple family or team profiles can share one instance with isolated address books and verified automatic backups.",
+  "author": "Arvind Arik",
+  "categories": [
+    "social",
+    "utilities",
+    "ai"
+  ],
+  "tipi_version": 1,
+  "version": "2.0.6",
+  "min_tipi_version": "4.5.0",
+  "source": "https://github.com/arvarik/contrack",
+  "website": "https://github.com/arvarik/contrack",
+  "exposable": true,
+  "dynamic_config": true,
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Extra allowed hostnames",
+      "hint": "Optional comma-separated hostnames or suffixes (for example a Tailscale .ts.net name) allowed before the first account is created.",
+      "placeholder": ".ts.net",
+      "required": false,
+      "env_variable": "CONTRACK_ALLOWED_HOSTS"
+    },
+    {
+      "type": "boolean",
+      "label": "Disable external AI providers",
+      "hint": "Lock external AI provider calls off for the whole instance (AI_DISABLED=true). Built-in local semantic search keeps working offline.",
+      "default": false,
+      "required": false,
+      "env_variable": "CONTRACK_AI_DISABLED"
+    }
+  ],
+  "supported_architectures": [
+    "arm64",
+    "amd64"
+  ],
+  "created_at": 1793825437000,
+  "updated_at": 1794205000000
+}

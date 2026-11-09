@@ -1,0 +1,30 @@
+services:
+  contrack-init:
+    image: 'ghcr.io/arvarik/contrack:2.0.6'
+    user: '0:0'
+    restart: 'no'
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - chown -R 1000:1000 /app/data
+    volumes:
+      - ${APP_DATA_DIR}/data:/app/data
+  contrack:
+    image: 'ghcr.io/arvarik/contrack:2.0.6'
+    depends_on:
+      contrack-init:
+        condition: service_completed_successfully
+    environment:
+      - AUTH_REQUIRED=true
+      - TRUST_PROXY_HOPS=1
+      - PUBLIC_URL=${APP_PROTOCOL:-http}://${APP_DOMAIN:-localhost:3210}
+      - ALLOWED_HOSTS=.local,.lan,.ts.net,${LOCAL_DOMAIN:-},${APP_LOCAL_DOMAIN:-},${CONTRACK_ALLOWED_HOSTS:-}
+      - AI_DISABLED=${CONTRACK_AI_DISABLED:-false}
+    volumes:
+      - ${APP_DATA_DIR}/data:/app/data
+    x-runtipi:
+      is_main: true
+      internal_port: 3210
+x-runtipi:
+  schema_version: 2
